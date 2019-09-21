@@ -33,45 +33,73 @@ namespace WindowsFormsApp2
         }
 
         #region Доставка
-        private void RadioButton1_CheckedChanged(object sender, EventArgs e)
+
+        /// <summary>
+        /// Считаем стоимость доставки
+        /// </summary>
+        void CalculateShippingCost()
+        {
+            try
+            {
+                int weightMatras = (int)(40 * Convert.ToDouble(matrasTextBox.Text));
+                double weightFurniture = Convert.ToDouble(weightTextBox.Text);
+                int priceShippingPerKg = 2;
+                int pricePadik = (int)(priceShippingPerKg * (weightMatras + weightFurniture) / 10 + 0.99999) * 10;
+                if (pricePadik < 400)
+                {
+                    pricePadik = 400;
+                }
+
+                int priceEdinolichnik = (int)(priceShippingPerKg * (weightMatras + weightFurniture) / 10 + 0.99999) * 10;
+                if (priceEdinolichnik < 3000)
+                {
+                    priceEdinolichnik = 3000;
+                }
+
+                int rasst = Convert.ToInt32(rasstTextBox.Text);
+
+                sovmDostRadioButton.Text = "(" + pricePadik.ToString() + " рублей)";
+                individDostRadioButton.Text = "(" + priceEdinolichnik.ToString() + " рублей)";
+                mezhgorodRadioButton.Text = "(" + (pricePadik + 30 * rasst).ToString() + " рублей)";
+            }
+            catch (Exception) { }
+
+            CalculateCost();
+        }
+
+        /// <summary>
+        /// Самовывоз
+        /// </summary>
+        private void samovyvozDostavkaClick(object sender, EventArgs e)
         {
             shippingTextBox.Text = "0";
             CalculateCost();
         }
 
-        private void RadioButton2_CheckedChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Индивидуальная доставка
+        /// </summary>
+        private void individDostavkaClick(object sender, EventArgs e)
         {
-            int weightMatras = 40 * Convert.ToInt32(matrasTextBox.Text);
-            int weightFurniture = Convert.ToInt32(weightTextBox.Text);
-            int priceShippingPerKg = 2;
-            int price = priceShippingPerKg * (weightMatras + weightFurniture);
-            if (price < 3000)
-            {
-                price = 3000;
-            }
-
-            shippingTextBox.Text = price.ToString();
-            CalculateCost();
-        }
-        private void RadioButton3_CheckedChanged(object sender, EventArgs e)
-        {
-            int weightMatras = 40 * Convert.ToInt32(matrasTextBox.Text);
-            int weightFurniture = Convert.ToInt32(weightTextBox.Text);
-            int priceShippingPerKg = 2;
-            int pricePadik = priceShippingPerKg * (weightMatras + weightFurniture);
-            if (pricePadik < 400)
-            {
-                pricePadik = 400;
-            }
-
-            shippingTextBox.Text = pricePadik.ToString();
+            shippingTextBox.Text = individDostRadioButton.Text.Replace("(", "").Replace(" рублей)", "").ToString();
             CalculateCost();
         }
 
-        private void RadioButton4_CheckedChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Выбрана совместная доставка
+        /// </summary>
+        private void sovmDostavkaClick(object sender, EventArgs e)
         {
-           
-            shippingTextBox.Text = "666";
+            shippingTextBox.Text = sovmDostRadioButton.Text.Replace("(", "").Replace(" рублей)", "").ToString();
+            CalculateCost();
+        }
+
+        /// <summary>
+        /// Межгород
+        /// </summary>
+        private void mezhgorodDostavkaClick(object sender, EventArgs e)
+        {           
+            shippingTextBox.Text = mezhgorodRadioButton.Text.Replace("(", "").Replace(" рублей)", "").ToString();
             CalculateCost();
         }
 
@@ -80,19 +108,25 @@ namespace WindowsFormsApp2
 
         private void FurnitureTextBox_TextChanged(object sender, EventArgs e)
         {
+            CalculatePodiomCost();
+            CalculateShippingCost();
             CalculateCost();
         }
 
         /// <summary>
-        /// Считаем стоимость
+        /// Считаем итоговую стоимость
         /// </summary>
         void CalculateCost()
         {
-            totalTextBox.Text = "Итого: " + (
-                Convert.ToInt32(furnitureTextBox.Text) +
-                Convert.ToInt32(shippingTextBox.Text) +
-                Convert.ToInt32(podyomTextBox.Text) +
-                Convert.ToInt32(complectTextBox.Text)).ToString();
+            try
+            {
+                totalTextBox.Text = "Итого: " + (
+                    Convert.ToInt32(furnitureTextBox.Text) +
+                    Convert.ToInt32(shippingTextBox.Text) +
+                    Convert.ToInt32(podyomTextBox.Text) +
+                    Convert.ToInt32(complectTextBox.Text)).ToString();
+            }
+            catch (Exception) { }
         }
 
         #region Подъем
@@ -132,5 +166,56 @@ namespace WindowsFormsApp2
         }
         #endregion
 
+        /// <summary>
+        /// Стоимость подъема
+        /// </summary>
+        void CalculatePodiomCost()
+        {
+            complectTextBox.Text = furnitureTextBox.Text;
+        }
+
+        private void RasstTextBox_TextChanged(object sender, EventArgs e)
+        {
+            CalculatePodiomCost();
+            CalculateShippingCost();
+        }
+
+        private void MatrasTextBox_TextChanged(object sender, EventArgs e)
+        {
+            CalculatePodiomCost();
+            CalculateShippingCost();
+        }
+
+        private void WeightTextBox_TextChanged(object sender, EventArgs e)
+        {
+            CalculatePodiomCost();
+            CalculateShippingCost();
+        }
+
+        private void Label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void TextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TextBox9_TextChanged(object sender, EventArgs e)
+        {
+            CalculatePodiomCost();
+
+        }
+
+        private void BunifuDatepicker1_onValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
