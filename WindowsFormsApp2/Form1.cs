@@ -31,6 +31,25 @@ namespace WindowsFormsApp2
         {
 
         }
+        #region Функции, упрощающие запись
+        /// <summary>
+        /// Округление с точностью до 10 рублей
+        /// </summary>
+        int Round10(double price)
+        {
+            return (int)(price / 10 + 0.99999) * 10;
+        }
+
+        /// <summary>
+        /// Убираем слово "рублей" из цены
+        /// </summary>
+        string ReplaceRubles(String price)
+        {
+            return price.Replace("(", "").Replace(" рублей)", "");
+        }
+        #endregion
+
+
 
         #region Доставка
 
@@ -44,13 +63,13 @@ namespace WindowsFormsApp2
                 int weightMatras = (int)(40 * Convert.ToDouble(matrasTextBox.Text));
                 double weightFurniture = Convert.ToDouble(weightTextBox.Text);
                 int priceShippingPerKg = 2;
-                int pricePadik = (int)(priceShippingPerKg * (weightMatras + weightFurniture) / 10 + 0.99999) * 10;
+                int pricePadik = Round10(priceShippingPerKg * (weightMatras + weightFurniture));
                 if (pricePadik < 400)
                 {
                     pricePadik = 400;
                 }
 
-                int priceEdinolichnik = (int)(priceShippingPerKg * (weightMatras + weightFurniture) / 10 + 0.99999) * 10;
+                int priceEdinolichnik = Round10(priceShippingPerKg * (weightMatras + weightFurniture));
                 if (priceEdinolichnik < 3000)
                 {
                     priceEdinolichnik = 3000;
@@ -81,7 +100,7 @@ namespace WindowsFormsApp2
         /// </summary>
         private void individDostavkaClick(object sender, EventArgs e)
         {
-            shippingTextBox.Text = individDostRadioButton.Text.Replace("(", "").Replace(" рублей)", "").ToString();
+            shippingTextBox.Text = ReplaceRubles(individDostRadioButton.Text);
             CalculateCost();
         }
 
@@ -90,7 +109,7 @@ namespace WindowsFormsApp2
         /// </summary>
         private void sovmDostavkaClick(object sender, EventArgs e)
         {
-            shippingTextBox.Text = sovmDostRadioButton.Text.Replace("(", "").Replace(" рублей)", "").ToString();
+            shippingTextBox.Text = ReplaceRubles(sovmDostRadioButton.Text);
             CalculateCost();
         }
 
@@ -99,7 +118,7 @@ namespace WindowsFormsApp2
         /// </summary>
         private void mezhgorodDostavkaClick(object sender, EventArgs e)
         {           
-            shippingTextBox.Text = mezhgorodRadioButton.Text.Replace("(", "").Replace(" рублей)", "").ToString();
+            shippingTextBox.Text = ReplaceRubles(mezhgorodRadioButton.Text);
             CalculateCost();
         }
 
