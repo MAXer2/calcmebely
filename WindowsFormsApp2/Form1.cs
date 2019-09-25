@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,7 +19,7 @@ namespace WindowsFormsApp2
 
         private void Label1_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -117,7 +117,7 @@ namespace WindowsFormsApp2
         /// Межгород
         /// </summary>
         private void mezhgorodDostavkaClick(object sender, EventArgs e)
-        {           
+        {
             shippingTextBox.Text = ReplaceRubles(mezhgorodRadioButton.Text);
             CalculateCost();
         }
@@ -190,12 +190,74 @@ namespace WindowsFormsApp2
         /// </summary>
         void CalculatePodiomCost()
         {
-            complectTextBox.Text = furnitureTextBox.Text;
+            try
+            {
+                int etaj = Convert.ToInt32(etajTextBox.Text);
+
+                int weightMatras = (int)(40 * Convert.ToDouble(matrasTextBox.Text));
+                double weightFurniture = Convert.ToDouble(weightTextBox.Text);
+                int pricePodyomPerKg = 1;
+                int pricePod = Round10(pricePodyomPerKg * etaj * (2 * weightMatras + weightFurniture));
+                if (pricePod < 300)
+                {
+                    pricePod = 300;
+                }
+
+                int priceLift = Round10(3 * pricePodyomPerKg * (2 * weightMatras + weightFurniture));
+                if (priceLift < 300)
+                {
+                    priceLift = 300;
+                }
+
+                int rasst = Convert.ToInt32(rasstTextBox.Text);
+
+                bezLiftaRadioButton.Text = "(" + pricePod.ToString() + " рублей)";
+                sLiftomRadioButton.Text = "(" + priceLift.ToString() + " рублей)";
+            }
+            catch (Exception) { }
+
+            CalculateCost();
+
+        }
+        /// <summary>
+        /// Стоимость сборки
+        /// </summary>
+        void CalculateComplectCost()
+        {
+            try
+            {
+                int etaj = Convert.ToInt32(etajTextBox.Text);
+                int rasst = Convert.ToInt32(rasstTextBox.Text);
+                int weightMatras = (int)(40 * Convert.ToDouble(matrasTextBox.Text));
+                double weightFurniture = Convert.ToDouble(weightTextBox.Text);
+                int pricePodyomPerKg = 1;
+                int price6Pr = Round10(Convert.ToInt32(furnitureTextBox.Text) * 0.06);
+                int priceSborkaCena = Round10(Convert.ToInt32(furnitureTextBox.Text) * 0.07);
+                int priceSborkaVes10 = Round10(Convert.ToInt32(weightTextBox.Text) * 15);
+
+                int priceSborkaVes = (priceSborkaCena > priceSborkaVes10) ? priceSborkaVes10 : priceSborkaCena;
+                int priceSborkaUlyanovsk = (priceSborkaVes > price6Pr) ? priceSborkaVes : price6Pr;
+
+                int priceSborkaNeUlyanovsk = Round10(Convert.ToInt32(priceSborkaUlyanovsk) + 22 * rasst);
+          
+               
+
+
+             
+
+                //bezLiftaRadioButton.Text = "(" + pricePod.ToString() + " рублей)";
+                //sLiftomRadioButton.Text = "(" + priceLift.ToString() + " рублей)";
+            }
+            catch (Exception) { }
+
+            CalculateCost();
+
         }
 
         private void RasstTextBox_TextChanged(object sender, EventArgs e)
         {
             CalculatePodiomCost();
+            CalculateComplectCost();
             CalculateShippingCost();
         }
 
@@ -233,6 +295,26 @@ namespace WindowsFormsApp2
         }
 
         private void BunifuDatepicker1_onValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox9_TextChanged_1(object sender, EventArgs e)
+        {
+            CalculatePodiomCost();
+        }
+
+        private void panel4_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
