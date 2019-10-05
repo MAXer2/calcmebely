@@ -429,7 +429,7 @@ namespace WindowsFormsApp2
             oPara3.Range.Text = "г.Ульяновск                                      20 февраля 2019 г.";
             oPara3.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
             oPara3.Range.Font.Bold = 0;
-            oPara2.Range. = 16;
+            //oPara2.Range. = 16;
             oPara3.Range.InsertParagraphAfter();
 
 
