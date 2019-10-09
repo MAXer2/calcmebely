@@ -395,6 +395,16 @@ namespace WindowsFormsApp2
             }
         }
 
+        Word.Paragraph addParagraph(object oRng, Word._Document oDoc, object oEndOfDoc)
+        {
+            Word.Paragraph oPara5;
+            oRng = oDoc.Bookmarks.get_Item(ref oEndOfDoc).Range;
+            oPara5 = oDoc.Content.Paragraphs.Add(ref oRng);
+
+            return oPara5;
+        }
+
+
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             #region Тут создается документ, это магия, в нее лезть не надо
@@ -413,9 +423,8 @@ namespace WindowsFormsApp2
             #endregion
 
             //Вставляем абзац
-            Word.Paragraph oPara2;
             object oRng = oDoc.Bookmarks.get_Item(ref oEndOfDoc).Range;
-            oPara2 = oDoc.Content.Paragraphs.Add(ref oRng);
+            Word.Paragraph oPara2 = addParagraph(oRng, oDoc, oEndOfDoc);
             oPara2.Range.Text = "Договор оказания дополнительных услуг №1";
             oPara2.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
             oPara2.Range.Font.Bold = 2;
@@ -423,9 +432,7 @@ namespace WindowsFormsApp2
             oPara2.Range.InsertParagraphAfter();
 
             //Insert another paragraph.
-            Word.Paragraph oPara3;
-            oRng = oDoc.Bookmarks.get_Item(ref oEndOfDoc).Range;
-            oPara3 = oDoc.Content.Paragraphs.Add(ref oRng);
+            Word.Paragraph oPara3 = addParagraph(oRng, oDoc, oEndOfDoc);
             oPara3.Range.Text = "г.Ульяновск                                      20 февраля 2019 г.";
             oPara3.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
             oPara3.Range.Font.Bold = 0;
@@ -433,9 +440,8 @@ namespace WindowsFormsApp2
             oPara3.Range.InsertParagraphAfter();
 
 
-            Word.Paragraph oPara5;
-            oRng = oDoc.Bookmarks.get_Item(ref oEndOfDoc).Range;
-            oPara5 = oDoc.Content.Paragraphs.Add(ref oRng);
+
+            Word.Paragraph oPara5 = addParagraph(oRng, oDoc, oEndOfDoc);
             oPara5.Range.Text = "Фамилия Имя Очество";
             oPara5.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
             oPara5.Range.Font.Bold = 1;
@@ -453,7 +459,7 @@ namespace WindowsFormsApp2
             for (r = 1; r <= 3; r++)
                 for (c = 1; c <= 5; c++)
                 {
-                    strText = "r" + r + "c" + c;
+                    strText = "1" + r + "2" + c;
                     oTable.Cell(r, c).Range.Text = strText;
                 }
             oTable.Rows[1].Range.Font.Bold = 1;
@@ -536,6 +542,26 @@ namespace WindowsFormsApp2
                 prevButton.Visible = false;
             }
         }
+
+        private void TabPage1_Click(object sender, EventArgs e)
+        {
+
         }
+
+        private void TabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Label17_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TextBox12_TextChanged(object sender, EventArgs e)
+        {
+            return;
+        }
+    }
     }
 
