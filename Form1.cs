@@ -21,7 +21,7 @@ namespace WindowsFormsApp2
 
         private void Label1_Click(object sender, EventArgs e)
         {
-
+           bezPodyomaRadioButton.Checked = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -407,90 +407,30 @@ namespace WindowsFormsApp2
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            #region Тут создается документ, это магия, в нее лезть не надо
-            object oMissing = System.Reflection.Missing.Value;
-            object oEndOfDoc = "\\endofdoc"; /* \endofdoc is a predefined bookmark */
+            Word.Application app = new Word.Application();
+            Object fileName = Application.StartupPath + "\\Договор создания дополнительных услуг.docx";
+            Object missing = Type.Missing;
+            app.Documents.Open(ref fileName);
+            Word.Find find = app.Selection.Find;
+            find.Text = "________________________________________________________";
+            find.Replacement.Text = textBox6.Text;
+            Object wrap = Word.WdFindWrap.wdFindContinue;
+            Object replace = Word.WdReplace.wdReplaceAll;
+            find.Execute(FindText: Type.Missing,
+                MatchCase: false,
+                MatchWholeWord: false,
+                MatchWildcards: false,
+                MatchSoundsLike: missing,
+                MatchAllWordForms: false,
+                Forward: true,
+                Wrap: wrap,
+                Format: false,
+                ReplaceWith: missing, Replace: replace);
 
-            //Start Word and create a new document.
-            Word._Application oWord;
-            Word._Document oDoc;
-            oWord = new Word.Application();
-            oWord.Visible = true;
-            oDoc = oWord.Documents.Add(ref oMissing, ref oMissing,
-            ref oMissing, ref oMissing);
-            oDoc.PageSetup.LeftMargin = 15;
-            oDoc.PageSetup.RightMargin = 15;
-            #endregion
-
-            //Вставляем абзац
-            object oRng = oDoc.Bookmarks.get_Item(ref oEndOfDoc).Range;
-            Word.Paragraph oPara2 = addParagraph(oRng, oDoc, oEndOfDoc);
-            oPara2.Range.Text = "Договор оказания дополнительных услуг №1";
-            oPara2.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-            oPara2.Range.Font.Bold = 2;
-            oPara2.Range.Font.Size = 16;
-            oPara2.Range.InsertParagraphAfter();
-
-            //Insert another paragraph.
-            Word.Paragraph oPara3 = addParagraph(oRng, oDoc, oEndOfDoc);
-            oPara3.Range.Text = "г.Ульяновск                                      20 февраля 2019 г.";
-            oPara3.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
-            oPara3.Range.Font.Bold = 0;
-            //oPara2.Range. = 16;
-            oPara3.Range.InsertParagraphAfter();
-
-
-
-            Word.Paragraph oPara5 = addParagraph(oRng, oDoc, oEndOfDoc);
-            oPara5.Range.Text = "Фамилия Имя Очество";
-            oPara5.Alignment = Word.WdParagraphAlignment.wdAlignParagraphLeft;
-            oPara5.Range.Font.Bold = 1;
-            oPara5.Range.InsertParagraphAfter();
-
-
-            //Insert a 3 x 5 table, fill it with data, and make the first row
-            //bold and italic.
-            Word.Table oTable;
-            Word.Range wrdRng = oDoc.Bookmarks.get_Item(ref oEndOfDoc).Range;
-            oTable = oDoc.Tables.Add(wrdRng, 3, 5, ref oMissing, ref oMissing);
-            oTable.Range.ParagraphFormat.SpaceAfter = 6;
-            int r, c;
-            string strText;
-            for (r = 1; r <= 3; r++)
-                for (c = 1; c <= 5; c++)
-                {
-                    strText = "1" + r + "2" + c;
-                    oTable.Cell(r, c).Range.Text = strText;
-                }
-            oTable.Rows[1].Range.Font.Bold = 1;
-            oTable.Rows[1].Range.Font.Italic = 1;
-
-            //Add some text after the table.
-            Word.Paragraph oPara100;
-            oRng = oDoc.Bookmarks.get_Item(ref oEndOfDoc).Range;
-            oPara100 = oDoc.Content.Paragraphs.Add(ref oRng);
-            oPara100.Range.InsertParagraphBefore();
-            oPara100.Range.Text = "And here's another table:";
-            oPara100.Format.SpaceAfter = 24;
-            oPara100.Range.InsertParagraphAfter();
-
-            //Insert a 5 x 2 table, fill it with data, and change the column widths.
-            wrdRng = oDoc.Bookmarks.get_Item(ref oEndOfDoc).Range;
-            oTable = oDoc.Tables.Add(wrdRng, 5, 2, ref oMissing, ref oMissing);
-            oTable.Range.ParagraphFormat.SpaceAfter = 6;
-            for (r = 1; r <= 5; r++)
-                for (c = 1; c <= 2; c++)
-                {
-                    strText = "r" + r + "c" + c;
-                    oTable.Cell(r, c).Range.Text = strText;
-                }
-            oTable.Columns[1].Width = oWord.InchesToPoints(2); //Change width of columns 1 & 2
-            oTable.Columns[2].Width = oWord.InchesToPoints(3);
-            
-            //Add text after the chart.
-            wrdRng = oDoc.Bookmarks.get_Item(ref oEndOfDoc).Range;
-            wrdRng.InsertParagraphAfter();
-            wrdRng.InsertAfter("THE END.");
+            app.ActiveDocument.SaveAsQuickStyleSet(Application.StartupPath + "\\Договор 1.docx");
+            //app.ActiveDocument.Close();
+            //app.Quit();
+            app.Visible = true;
         }
 
         private void bunifuThinButton21_Click(object sender, EventArgs e)
@@ -518,6 +458,10 @@ namespace WindowsFormsApp2
             CalculatePodiomCost();
             CalculateComplectCost();
             CalculateShippingCost();
+            if ((textBox3.Text.Equals("")) || (textBox4.Text.Equals("")) || (textBox5.Text.Equals("")) || (textBox6.Text.Equals("")) || (furnitureTextBox.Text.Equals("")) || (weightTextBox.Text.Equals("")) || (etajTextBox.Text.Equals("")) || (matrasComboBox.Text.Equals(""))) { 
+                MessageBox.Show("Вы не ввели все необходимые данные!!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+            }  else { 
+           
 
             tabControl1.SelectedIndex = tabControl1.SelectedIndex + 1;
             nextButton.Visible = true;
@@ -525,6 +469,7 @@ namespace WindowsFormsApp2
             if (tabControl1.SelectedIndex == 3)
             {
                 nextButton.Visible = false;
+            }
             }
         }
 
@@ -555,12 +500,104 @@ namespace WindowsFormsApp2
 
         private void Label17_Click_1(object sender, EventArgs e)
         {
-
+            Sborka1RadioButton.Checked = true;
         }
 
         private void TextBox12_TextChanged(object sender, EventArgs e)
         {
             return;
+        }
+
+        private void Panel5_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void TextBox4_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void DateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BezLiftaRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            shippingTextBox.Text = ReplaceRubles(bezLiftaRadioButton.Text);
+            CalculateCost();
+        }
+
+        private void SLiftomRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+
+            shippingTextBox.Text = ReplaceRubles(sLiftomRadioButton.Text);  
+            CalculateCost();
+        }
+
+        private void Sborka1RadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            shippingTextBox.Text = ReplaceRubles(Sborka1RadioButton.Text);
+            CalculateCost();
+        }
+
+        private void Sborka2RadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            shippingTextBox.Text = ReplaceRubles(Sborka2RadioButton.Text);
+             CalculateCost();
+        }
+
+        private void BezPodyomaRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            shippingTextBox.Text = ReplaceRubles(bezPodyomaRadioButton.Text);
+            CalculateCost();
+        }
+
+        private void BezSborkiRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            shippingTextBox.Text = ReplaceRubles(bezSborkiRadioButton.Text);
+            CalculateCost();            
+        }
+
+        private void Label16_Click(object sender, EventArgs e)
+        {
+            bezLiftaRadioButton.Checked = true;
+        }
+
+        private void Label15_Click(object sender, EventArgs e)
+        {
+            sLiftomRadioButton.Checked = true;
+        }
+
+        private void Label12_Click(object sender, EventArgs e)
+        {
+            sovmDostRadioButton.Checked = true;
+        }
+
+        private void Label13_Click(object sender, EventArgs e)
+        {
+            individDostRadioButton.Checked = true;
+        }
+
+        private void Label14_Click(object sender, EventArgs e)
+        {
+            mezhgorodRadioButton.Checked = true;
+        }
+
+        private void Label18_Click_1(object sender, EventArgs e)
+        {
+            bezSborkiRadioButton.Checked = true;
+        }
+
+        private void Label19_Click(object sender, EventArgs e)
+        {
+            Sborka2RadioButton.Checked = true;
+        }
+
+        private void TextBox6_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
     }
