@@ -403,7 +403,21 @@ namespace WindowsFormsApp2
 
             return oPara5;
         }
-
+        void zamena(Object missing, Object wrap, Object replace, Word.Find find, string from, string naChtoMenyaem)
+        {
+            find.Text = from;
+            find.Replacement.Text = naChtoMenyaem.Replace("(", "").Replace(")", "");
+            find.Execute(FindText: Type.Missing,
+                MatchCase: false,
+                MatchWholeWord: false,
+                MatchWildcards: false,
+                MatchSoundsLike: missing,
+                MatchAllWordForms: false,
+                Forward: true,
+                Wrap: wrap,
+                Format: false,
+                ReplaceWith: missing, Replace: replace);
+        }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
@@ -412,8 +426,6 @@ namespace WindowsFormsApp2
             Object missing = Type.Missing;
             app.Documents.Open(ref fileName);
             Word.Find find = app.Selection.Find;
-            find.Text = "________________________________________________________";
-            find.Replacement.Text = textBox6.Text;
             Object wrap = Word.WdFindWrap.wdFindContinue;
             Object replace = Word.WdReplace.wdReplaceAll;
             find.Execute(FindText: Type.Missing,
@@ -426,7 +438,43 @@ namespace WindowsFormsApp2
                 Wrap: wrap,
                 Format: false,
                 ReplaceWith: missing, Replace: replace);
+#region Замена 
 
+            zamena(missing, wrap, replace, find, "*Здесь адрес клиента*", textBox6.Text);
+
+            zamena(missing, wrap, replace, find, "*Здесь имя заказчика*", textBox4.Text);
+
+            zamena(missing, wrap, replace, find, "*Здесь телефон клиента*", textBox5.Text);
+
+            zamena(missing, wrap, replace, find, "*номер договора*", textBox3.Text);
+
+            zamena(missing, wrap, replace, find, "*вес*", weightTextBox.Text);
+
+            zamena(missing, wrap, replace, find, "*здесь этаж*", etajTextBox.Text);
+
+            zamena(missing, wrap, replace, find, "*кматр*", matrasComboBox.Text);
+
+            zamena(missing, wrap, replace, find, "*Здесь дата*", dateTimePicker1.Text);
+
+            zamena(missing, wrap, replace, find, "*цена с доставки*", sovmDostRadioButton.Text);
+
+            zamena(missing, wrap, replace, find, "*цена инд доставки*", individDostRadioButton.Text);
+
+            zamena(missing, wrap, replace, find, "*цена доставки за пред*", mezhgorodRadioButton.Text);
+
+            zamena(missing, wrap, replace, find, "*цена подъем без лифта*", bezLiftaRadioButton.Text);
+
+            zamena(missing, wrap, replace, find, "*цена занос с лифтом*", sLiftomRadioButton.Text);
+
+            zamena(missing, wrap, replace, find, "*цена сборки*", Sborka1RadioButton.Text);
+
+            zamena(missing, wrap, replace, find, "*цена сборки за пред*", Sborka1RadioButton.Text);
+
+            zamena(missing, wrap, replace, find, "*цена креления*", Sborka2RadioButton.Text);
+
+            zamena(missing, wrap, replace, find, "*стоимость*", totalTextBox.Text);
+            
+#endregion
             app.ActiveDocument.SaveAsQuickStyleSet(Application.StartupPath + "\\Договор 1.docx");
             //app.ActiveDocument.Close();
             //app.Quit();
