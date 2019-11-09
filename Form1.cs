@@ -26,8 +26,7 @@ namespace WindowsFormsApp2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            matrasComboBox.SelectedIndex = 0;
-            kreplenieComboBox.SelectedIndex = 0;
+           
         }
 
         private void Label3_Click(object sender, EventArgs e)
@@ -239,7 +238,7 @@ namespace WindowsFormsApp2
             {
                 int etaj = Convert.ToInt32(etajTextBox.Text);
                 int rasst = Convert.ToInt32(rasstTextBox.Text);
-                int kreplenie = Convert.ToInt32(kreplenieComboBox.Text);
+                int kreplenie = Convert.ToInt32(kreplenieBox.Text);
                 int weightMatras = (int)(40 * Convert.ToDouble(matrasComboBox.Text));
                 double weightFurniture = Convert.ToDouble(weightTextBox.Text);
                 int pricePodyomPerKg = 1;
@@ -370,13 +369,13 @@ namespace WindowsFormsApp2
             CalculateComplectCost();
             CalculateShippingCost();
 
-            tabControl1.SelectedIndex = tabControl1.SelectedIndex + 1;
+            //tabControl1.SelectedIndex = tabControl1.SelectedIndex + 1;
             nextButton.Visible = true;
             prevButton.Visible = true;
-            if (tabControl1.SelectedIndex == 3)
-            {
-                nextButton.Visible = false;
-            }
+           // if (tabControl1.SelectedIndex == 3)
+            //{
+            //    nextButton.Visible = false;
+           // }
 
         }
 
@@ -386,13 +385,13 @@ namespace WindowsFormsApp2
             CalculateComplectCost();
             CalculateShippingCost();
 
-            tabControl1.SelectedIndex = tabControl1.SelectedIndex - 1;
+            //tabControl1.SelectedIndex = tabControl1.SelectedIndex - 1;
             nextButton.Visible = true;
             prevButton.Visible = true;
-            if (tabControl1.SelectedIndex == 0)
-            {
-                prevButton.Visible = false;
-            }
+           // if (tabControl1.SelectedIndex == 0)
+          //  {
+           //     prevButton.Visible = false;
+           // }
         }
 
         Word.Paragraph addParagraph(object oRng, Word._Document oDoc, object oEndOfDoc)
@@ -508,16 +507,17 @@ namespace WindowsFormsApp2
             CalculateShippingCost();
             if ((textBox3.Text.Equals("")) || (textBox4.Text.Equals("")) || (textBox5.Text.Equals("")) || (textBox6.Text.Equals("")) || (furnitureTextBox.Text.Equals("")) || (weightTextBox.Text.Equals("")) || (etajTextBox.Text.Equals("")) || (matrasComboBox.Text.Equals(""))) { 
                 MessageBox.Show("Вы не ввели все необходимые данные!!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
-            }  else { 
-           
+            }  else {
 
-            tabControl1.SelectedIndex = tabControl1.SelectedIndex + 1;
+
+                panel6.Visible = true;
+            //tabControl1.SelectedIndex = tabControl1.SelectedIndex + 1;
             nextButton.Visible = true;
             prevButton.Visible = true;
-            if (tabControl1.SelectedIndex == 3)
-            {
-                nextButton.Visible = false;
-            }
+           // if (tabControl1.SelectedIndex == 3)
+          //  {
+           //     nextButton.Visible = false;
+           // }
             }
         }
 
@@ -527,13 +527,13 @@ namespace WindowsFormsApp2
             CalculateComplectCost();
             CalculateShippingCost();
 
-            tabControl1.SelectedIndex = tabControl1.SelectedIndex - 1;
+          //  tabControl1.SelectedIndex = tabControl1.SelectedIndex - 1;
             nextButton.Visible = true;
-            prevButton.Visible = true;
-            if (tabControl1.SelectedIndex == 0)
-            {
-                prevButton.Visible = false;
-            }
+          prevButton.Visible = true;
+           // if (tabControl1.SelectedIndex == 0)
+           // {
+           //     prevButton.Visible = false;
+          //  }
         }
 
         private void TabPage1_Click(object sender, EventArgs e)
@@ -644,6 +644,21 @@ namespace WindowsFormsApp2
         }
 
         private void TextBox6_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label21_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox3_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
         {
 
         }

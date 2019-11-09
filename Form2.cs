@@ -54,6 +54,18 @@ namespace WindowsFormsApplication1
                
             }
         }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // Form1
+            // 
+            this.ClientSize = new System.Drawing.Size(526, 515);
+            this.Name = "Form1";
+            this.ResumeLayout(false);
+
+        }
  
     }
 }
